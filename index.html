@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINNAMONPUMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* DARK MODE NEO-BRUTALISM TOKENS */
+:root {
+  --bg:        #0f0f13; 
+  --card-bg:   #1a1a1f; 
+  --black:     #000000;
+  --white:     #ffffff;
+  --doom-red:  #ff0055; 
+  --doom-ylw:  #ffeb3b; 
+  --doom-cyn:  #00e5ff; 
+  --doom-grn:  #00ff66; 
+  
+  --border-w:  3px;
+  --shadow-red: 6px 6px 0px var(--doom-red);
+  --shadow-ylw: 6px 6px 0px var(--doom-ylw);
+  --shadow-cyn: 6px 6px 0px var(--doom-cyn);
+  --shadow-wht: 6px 6px 0px var(--white);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'JetBrains Mono',monospace;
+  background-color: var(--bg);
+  /* Moving halftone dot background */
+  background-image: radial-gradient(rgba(255,255,255,0.08) 2px, transparent 2px);
+  background-size: 24px 24px;
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+  animation: bg-drift 10s linear infinite;
+}
+
+@keyframes bg-drift {
+  0% { background-position: 0px 0px; }
+  100% { background-position: 48px 48px; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:999;
+  height:50px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;
+  background:var(--bg);
+  border-bottom:var(--border-w) solid var(--white);
+  box-shadow: 0 4px 0px var(--doom-red);
+}
+.nav-id{
+  display:flex;align-items:center;gap:8px;
+  font-size:.85rem;font-weight:700;letter-spacing:.04em;
+}
+.nav-id .host{color:var(--white); font-family: 'Bangers', cursive; font-size: 1.3rem; letter-spacing: 2px;}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--doom-red);border:2px solid var(--white);animation:pulse-d 0.8s infinite alternate}
+@keyframes pulse-d{from{transform:scale(0.8); box-shadow: 0 0 0px var(--doom-red);}to{transform:scale(1.2); box-shadow: 0 0 10px var(--doom-red);}}
+
+.nav-links{display:flex;gap:24px; font-weight:700;}
+.nav-links a{
+  font-size:.8rem;color:var(--white);text-decoration:none;
+  text-transform:uppercase; transition:all 150ms;
+}
+.nav-links a:hover{color:var(--doom-cyn); transform:translateY(-2px); text-shadow: 2px 2px 0px var(--black);}
+
+/* ── MAIN WRAP ── */
+.wrap{max-width:950px;margin:0 auto;padding:0 28px}
+main { overflow: hidden; }
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-top:100px;padding-bottom:60px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* Continuous floating hero container */
+.hero-float-wrapper {
+  animation: float-3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes float-3d {
+  0%, 100% { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
+  50% { transform: translateY(-15px) rotateX(-2deg) rotateY(2deg); }
+}
+
+.hero-name{
+  font-family:'Bangers', cursive;
+  font-size:clamp(4.5rem,13vw,10rem);
+  color:var(--white);
+  letter-spacing:.02em;line-height:.85;
+  text-shadow: 6px 6px 0px var(--doom-red), 12px 12px 0px var(--doom-cyn);
+  margin-bottom:20px;
+  transform: rotate(-3deg);
+  position: relative;
+  z-index: 10;
+  transition: transform 0.2s;
+}
+.hero-name:hover {
+  transform: rotate(0deg) scale(1.05);
+  text-shadow: 8px 8px 0px var(--doom-ylw), 16px 16px 0px var(--doom-grn);
+}
+
+.hero-tag{
+  font-size:1rem; font-weight: 700;
+  background: var(--card-bg);
+  color: var(--white);
+  display: inline-block;
+  padding: 6px 14px;
+  border: var(--border-w) solid var(--white);
+  box-shadow: 4px 4px 0px var(--doom-ylw);
+  margin-bottom:12px;
+  transform: rotate(1deg);
+  align-self: flex-start;
+}
+
+.hero-sub{
+  font-size:.95rem; font-weight: 700;
+  margin-bottom:44px;
+  color: var(--black);
+  background: var(--doom-cyn);
+  display: inline-block;
+  padding: 4px 10px;
+  border: 2px solid var(--white);
+  align-self: flex-start;
+}
+
+.hero-btns{
+  display:flex;gap:20px;flex-wrap:wrap;
+}
+
+/* Brutalist Buttons with Aggressive Wiggle */
+.btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.9rem; font-weight: 700;
+  padding:12px 24px;
+  cursor:pointer;text-decoration:none;
+  color: var(--white);
+  background: var(--card-bg);
+  border: var(--border-w) solid var(--white);
+  display:inline-flex;align-items:center;gap:10px;
+  transition:all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-cyn { box-shadow: var(--shadow-cyn); }
+.btn-red { box-shadow: var(--shadow-red); }
+
+.btn:hover{
+  animation: shake 0.4s infinite;
+  box-shadow: 10px 10px 0px var(--white);
+  background: var(--doom-ylw);
+  color: var(--black);
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  25% { transform: translate(-2px, -2px) rotate(-3deg); }
+  50% { transform: translate(1px, -1px) rotate(3deg); }
+  75% { transform: translate(-1px, 2px) rotate(-1deg); }
+  100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+/* ── INFINITE MARQUEE TICKER ── */
+.marquee-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background: var(--doom-ylw);
+  border-top: var(--border-w) solid var(--white);
+  border-bottom: var(--border-w) solid var(--white);
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  box-shadow: 0px 6px 0px var(--doom-red);
+  transform: rotate(-1.5deg) scale(1.05);
+  margin-bottom: 60px;
+  z-index: 50;
+}
+.marquee-text {
+  display: inline-block;
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: var(--black);
+  letter-spacing: 3px;
+  animation: scroll-left 15s linear infinite;
+}
+.marquee-text span { margin: 0 40px; }
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } 
+}
+
+/* ── SECTION SHARED ── */
+.section-chrome{
+  padding:90px 0 150px;
+  border-top: var(--border-w) solid var(--white);
+  background: var(--bg);
+  position: relative;
+}
+.section-chrome:nth-child(even) {
+  background: #0a0a0d; 
+}
+.section-op{
+  font-family: 'Bangers', cursive;
+  font-size: 3.5rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-shadow: 4px 4px 0px var(--doom-red);
+  margin-bottom: 50px;
+  display: inline-block;
+  position: relative;
+  z-index: 5;
+}
+.section-op::before {
+  content: '';
+  position: absolute;
+  width: 110%; height: 40%;
+  background: var(--doom-ylw);
+  bottom: 5px; left: -5%;
+  z-index: -1;
+  border: 2px solid var(--white);
+  transform: rotate(-2deg);
+}
+
+/* ── THE MASSIVE SMOKE SLIDING DOORS ── */
+.cloud-overlay {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  z-index: 100; /* Covers the section completely until it slides */
+  pointer-events: none;
+  overflow: hidden;
+}
+.cloud-door {
+  position: absolute;
+  top: -10%; bottom: -10%;
+  width: 60vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 1; /* Full opacity per request */
+  transition: transform 1.2s cubic-bezier(0.5, 0, 0.1, 1);
+}
+.door-left {
+  left: -5vw;
+  /* Massive white comic cloud facing right */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L65,0 Q105,12 70,25 Q115,40 75,50 Q115,60 70,75 Q105,88 65,100 L0,100 Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  filter: drop-shadow(8px 0px 0px var(--doom-cyn));
+  transform: translateX(0);
+}
+.door-right {
+  right: -5vw;
+  /* Massive white comic cloud facing left */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100,0 L35,0 Q-5,12 30,25 Q-15,40 25,50 Q-15,60 30,75 Q-5,88 35,100 L100,100 Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  filter: drop-shadow(-8px 0px 0px var(--doom-red));
+  transform: translateX(0);
+}
+
+/* When section enters viewport, slide the massive clouds apart */
+.section-chrome.in .door-left { transform: translateX(-120%); }
+.section-chrome.in .door-right { transform: translateX(120%); }
+
+/* ── 3D DEPTH REVEAL ("DIVING INTO PAGE") ── */
+.proj-list-wrapper {
+  perspective: 2500px;
+}
+.proj-list{
+  display:grid; grid-template-columns: 1fr 1fr; gap:60px 40px;
+  transform-style: preserve-3d;
+}
+
+.reveal-3d {
+  opacity: 0;
+  /* Starts incredibly small, blurry, rotated, and pushed deep into the background void */
+  transform: translateZ(-1500px) translateY(300px) scale(0.1) rotateX(30deg);
+  filter: blur(25px);
+  transform-origin: center center;
+  transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.section-chrome.in .reveal-3d {
+  opacity: 1;
+  /* Rockets forward into the user's face */
+  transform: translateZ(0) translateY(0) scale(1) rotateX(0deg);
+  filter: blur(0);
+}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.tblock{
+  background:var(--card-bg);
+  border:var(--border-w) solid var(--white);
+  box-shadow: var(--shadow-cyn);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.tblock:hover { 
+  transform: translateY(-10px) scale(1.02); 
+  box-shadow: 12px 12px 0px var(--doom-ylw);
+}
+.tblock-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+  border-bottom:var(--border-w) solid var(--white);
+  background:var(--bg);
+}
+.tblock-title{font-size:.85rem;font-weight:700;text-transform:uppercase; color: var(--white);}
+.tdots{display:flex;gap:6px}
+.td{width:12px;height:12px;border:2px solid var(--white);border-radius:50%}
+.td-r{background:var(--doom-red)}.td-y{background:var(--doom-ylw)}.td-g{background:var(--doom-grn)}
+.tblock-body{padding:20px}
+.tl{font-size:.85rem;line-height:1.8;font-weight:700}
+.tl-blank{height:12px}
+
+/* ── PROJECTS CARDS ── */
+.pentry{
+  background:var(--card-bg);
+  border:var(--border-w) solid var(--white);
+  box-shadow: var(--shadow-red);
+  display: flex; flex-direction: column;
+  transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 2;
+}
+
+/* Massive Hover Effects for Cards */
+.pentry:hover{
+  transform:translateY(-15px) rotate(3deg) scale(1.05) !important;
+  box-shadow: -15px 15px 0px var(--white);
+  z-index: 10;
+}
+
+.pentry:nth-child(2) { box-shadow: var(--shadow-cyn); }
+.pentry:nth-child(3) { box-shadow: var(--shadow-ylw); }
+.pentry:nth-child(4) { box-shadow: var(--shadow-red); }
+
+.pentry-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;border-bottom:var(--border-w) solid var(--white);
+  background:var(--bg);
+}
+
+.ppath{font-size:.85rem;font-weight:700; color:var(--doom-cyn);}
+.pentry:nth-child(2) .ppath { color: var(--doom-ylw); }
+.pentry:nth-child(3) .ppath { color: var(--doom-red); }
+.pentry:nth-child(4) .ppath { color: var(--doom-grn); }
+
+.pentry-body{
+  padding:24px;
+  display:flex; flex-direction:column; flex: 1;
+}
+.ptitle{
+  font-family:'Bangers',cursive;
+  font-size:2.5rem;color:var(--white);
+  line-height:1;margin-bottom:12px;
+  text-shadow: 3px 3px 0px var(--black);
+}
+.pdesc{
+  font-size:.85rem;line-height:1.6;font-weight:400;
+  margin-bottom:20px; flex: 1; color: #dddddd;
+}
+
+.plink{
+  display:inline-flex;align-items:center;justify-content: center; gap:8px;
+  font-family:'JetBrains Mono',monospace; font-weight: 700;
+  font-size:.8rem;color:var(--black);
+  text-decoration:none;border:2px solid var(--white);
+  padding:10px 16px; background: var(--doom-grn);
+  box-shadow: 4px 4px 0px var(--white);
+  transition:all 200ms;
+}
+.plink:hover{ transform:translate(-2px, -2px); box-shadow: 8px 8px 0px var(--doom-ylw); background: var(--doom-red); color: var(--white);}
+
+/* ── FOOTER ── */
+footer{
+  border-top:var(--border-w) solid var(--white);
+  background: var(--bg);
+  padding:40px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-weight: 700;
+}
+.foot-l{font-size:.8rem;}
+.foot-r{font-size:.8rem; color: var(--doom-cyn);}
+
+@media(max-width:850px){
+  .proj-list{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .about-grid{grid-template-columns:1fr}
+  .hero-name{font-size:clamp(3.5rem,15vw,6rem)}
+  nav{padding:0 18px}
+  .wrap{padding:0 18px}
+  footer{flex-direction:column;gap:10px;text-align:center}
+  .cloud-door { width: 80vw; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav role="navigation">
+  <div class="nav-id">
+    <div class="nav-dot"></div>
+    <span class="host">CINNAMONPUMA</span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Mods</a>
+    <a href="https://www.youtube.com/@CinnamonPuma" target="_blank" rel="noopener">YouTube</a>
+  </div>
+</nav>
+
+<main>
+<!-- HERO -->
+<section class="hero wrap" id="hero">
+  <div class="hero-float-wrapper">
+    <h1 class="hero-name">CINNAMONPUMA</h1>
+    <p class="hero-tag">MOD DEVELOPER &amp; CODER // FABRIC</p>
+    <br>
+    <p class="hero-sub">Things built in the dark. All caps when you type the name.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-cyn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        VIEW MODS
+      </a>
+      <a href="https://www.youtube.com/@CinnamonPuma" target="_blank" rel="noopener" class="btn btn-red">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+        YOUTUBE
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="section-chrome reveal-section">
+<section class="wrap" id="about">
+  <h2 class="section-op reveal-3d">ABOUT_ME</h2>
+
+  <div class="about-grid reveal-3d">
+    <div class="tblock">
+      <div class="tblock-head">
+        <span class="tblock-title">profile.txt</span>
+        <div class="tdots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
+      </div>
+      <div class="tblock-body">
+        <div class="tl">Minecraft mod developer.</div>
+        <div class="tl">I build things that live inside</div>
+        <div class="tl">other games : overlays, systems,</div>
+        <div class="tl">idle empires, and music bridges.</div>
+        <div class="tl-blank"></div>
+        <div class="tl">Just a guy</div>
+        <div class="tl">using Fabric</div>
+      </div>
+    </div>
+
+    <div class="tblock">
+      <div class="tblock-head">
+        <span class="tblock-title">stack_info.json</span>
+        <div class="tdots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
+      </div>
+      <div class="tblock-body">
+        <div class="tl">"handle": "cinnamonpuma",</div>
+        <div class="tl">"type": "mod_developer",</div>
+        <div class="tl">"loader": "Fabric API",</div>
+        <div class="tl">"platform": "Modrinth",</div>
+        <div class="tl">:),</div>
+        <div class="tl-blank"></div>
+        <div class="tl">// never fold. keep building.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- INFINITE MARQUEE TICKER -->
+<div class="marquee-container">
+  <div class="marquee-text">
+    <span>ALL CAPS</span> <span>//</span> <span>COOKIES</span> <span>//</span> <span>MUSIC</span> <span>//</span> <span>CINNAMON</span> <span>//</span> <span>RENDERING</span> <span>//</span>
+    <!-- Duplicated for seamless scrolling -->
+    <span>ALL CAPS</span> <span>//</span> <span>COOKIES</span> <span>//</span> <span>MUSIC</span> <span>//</span> <span>CINNAMON</span> <span>//</span> <span>RENDERING</span> <span>//</span>
+  </div>
+</div>
+
+<!-- PROJECTS (HIDDEN BY MASSIVE CLOUD DOORS UNTIL SCROLLED) -->
+<div class="section-chrome reveal-section" id="projects-section">
+  
+  <!-- The Two Massive Smoke Clouds -->
+  <div class="cloud-overlay">
+    <div class="cloud-door door-left"></div>
+    <div class="cloud-door door-right"></div>
+  </div>
+
+<section class="wrap" id="projects">
+  <h2 class="section-op reveal-3d" style="transition-delay: 0.1s">DEPLOYED_MODS</h2>
+
+  <div class="proj-list-wrapper">
+    <div class="proj-list">
+
+      <!-- CookieClickerUltimate -->
+      <article class="pentry reveal-3d" style="transition-delay: 0.2s">
+        <div class="pentry-head">
+          <div class="ppath">cookieclickerultimate.jar</div>
+        </div>
+        <div class="pentry-body">
+          <h2 class="ptitle">Cookie Clicker Ultimate</h2>
+          <p class="pdesc">A full idle game overlay living inside your Minecraft inventory. Build a cookie empire with Minecraft-themed structures, research advanced tech, and ascend via Nether Star prestige bonuses.</p>
+          <a href="https://modrinth.com/mod/cookieclickerultimate" class="plink" target="_blank" rel="noopener">
+            GET ON MODRINTH
+          </a>
+        </div>
+      </article>
+
+      <!-- AudioBridge -->
+      <article class="pentry reveal-3d" style="transition-delay: 0.3s">
+        <div class="pentry-head">
+          <div class="ppath">audiobridge.jar</div>
+        </div>
+        <div class="pentry-body">
+          <h2 class="ptitle">AudioBridge</h2>
+          <p class="pdesc">Bridges your music and your Minecraft session. Pulls your currently playing track (Spotify, etc.) and renders a live "Now Playing" overlay directly on your HUD. Zero config required.</p>
+          <a href="https://modrinth.com/mod/audiobridge" class="plink" target="_blank" rel="noopener">
+            GET ON MODRINTH
+          </a>
+        </div>
+      </article>
+
+      <!-- BetterChunkBorders -->
+      <article class="pentry reveal-3d" style="transition-delay: 0.4s">
+        <div class="pentry-head">
+          <div class="ppath">betterchunkborders.jar</div>
+        </div>
+        <div class="pentry-body">
+          <h2 class="ptitle">Better Chunk Borders</h2>
+          <p class="pdesc">Enhanced chunk border visualization. Perfect for technical players, builders, and redstoners who need to see exactly where chunks begin and end with highly customizable colors and grid modes.</p>
+          <a href="https://modrinth.com/mod/betterchunkborders" class="plink" target="_blank" rel="noopener">
+            GET ON MODRINTH
+          </a>
+        </div>
+      </article>
+
+      <!-- Cinnamon Client -->
+      <article class="pentry reveal-3d" style="transition-delay: 0.5s">
+        <div class="pentry-head">
+          <div class="ppath">cinnamon-client.jar</div>
+        </div>
+        <div class="pentry-body">
+          <h2 class="ptitle">Cinnamon Client</h2>
+          <p class="pdesc">A lightweight, highly optimized custom client modpack for Fabric. Boosts FPS to the moon, enhances rendering, and provides essential QoL features without bloated or confusing menus.</p>
+          <a href="https://modrinth.com/mod/cinnamon-client" class="plink" target="_blank" rel="noopener">
+            GET ON MODRINTH
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+</div>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot-l">CINNAMONPUMA // <span id="yr"></span></div>
+  <div class="foot-r">why are you reading me</div>
+</footer>
+
+<script>
+// Dynamic Year
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Section & 3D Fly-In Observer
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      // Adding class '.in' triggers both the clouds sliding apart 
+      // AND the cards firing forward from the background
+      e.target.classList.add('in'); 
+      obs.unobserve(e.target);
+    }
+  });
+},{
+  threshold: 0.25, 
+  rootMargin: '0px 0px -50px 0px' 
+});
+
+// Observe all sections containing the .reveal-section trigger class
+document.querySelectorAll('.reveal-section').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
