@@ -1,619 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- BROWSER ICON -->
-  <link rel="icon" type="image/png" href="favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinnamonPuma | Minecraft Modder</title>
 
-  <!-- PRIMARY META TAGS -->
-  <meta name="title" content="CINNAMONPUMA // MODS">
-  <meta name="description" content="Official portfolio of CINNAMONPUMA. Fabric mod developer building things.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-  <!-- OPEN GRAPH (DISCORD & SOCIALS) -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://cinnamonpuma.github.io/">
-  <meta property="og:title" content="CINNAMONPUMA // MODS">
-  <meta property="og:description" content="Fabric mod developer">
-  <meta property="og:image" content="https://cinnamonpuma.github.io/og-image.png">
+  <style>
+    :root {
+      --bg:        #08080a;
+      --surface:   rgba(255,255,255,0.04);
+      --border:    rgba(255,255,255,0.09);
+      --text:      #f0f0f2;
+      --muted:     #7d7d8a;
+      --cyan:      #00e8ff;
+      --magenta:   #ff2d6b;
+      --purple:    #6e00ff;
+      --ease-film: cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-  <!-- THEME COLOR (MOBILE & DISCORD) -->
-  <meta name="theme-color" content="#ff0055"> <!-- This makes the browser bar on mobile Pink! -->
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-  <!-- APPLE TOUCH ICON (FOR BOOKMARKS) -->
-  <link rel="apple-touch-icon" href="favicon.png">
-<title>CINNAMONPUMA</title>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-/* DARK MODE NEO-BRUTALISM TOKENS */
-:root {
-  --bg:        #0f0f13; 
-  --card-bg:   #1a1a1f; 
-  --black:     #000000;
-  --white:     #ffffff;
-  --doom-red:  #ff0055; 
-  --doom-ylw:  #ffeb3b; 
-  --doom-cyn:  #00e5ff; 
-  --doom-grn:  #00ff66; 
-  
-  --border-w:  3px;
-  --shadow-red: 6px 6px 0px var(--doom-red);
-  --shadow-ylw: 6px 6px 0px var(--doom-ylw);
-  --shadow-cyn: 6px 6px 0px var(--doom-cyn);
-  --shadow-wht: 6px 6px 0px var(--white);
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+    /* Ambient background */
+    .scene-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(140px); opacity: 0.10;
+      animation: drift 18s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .orb-a { width: 65vw; height: 65vw; top: -15%; left: -15%; background: var(--magenta); }
+    .orb-b { width: 55vw; height: 55vw; top: 35%; right: -12%; background: var(--cyan); animation-delay: -6s; }
+    .orb-c { width: 75vw; height: 75vw; bottom: -25%; left: 15%; background: var(--purple); animation-delay: -12s; }
+    @keyframes drift {
+      from { transform: translateY(0px) scale(1); }
+      to   { transform: translateY(50px) scale(1.08); }
+    }
 
-body{
-  font-family:'JetBrains Mono',monospace;
-  background-color: var(--bg);
-  /* Moving halftone dot background */
-  background-image: radial-gradient(rgba(255,255,255,0.08) 2px, transparent 2px);
-  background-size: 24px 24px;
-  color:var(--white);
-  min-height:100vh;
-  overflow-x:hidden;
-  line-height:1.6;
-  animation: bg-drift 10s linear infinite;
-}
+    .grain {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
 
-@keyframes bg-drift {
-  0% { background-position: 0px 0px; }
-  100% { background-position: 48px 48px; }
-}
+    /* Progress bar */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 200;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    body:hover #progress-bar { opacity: 1; }
+    #progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      width: 0%; transition: width 0.5s var(--ease-film);
+    }
 
-@media(prefers-reduced-motion:reduce){
-  *{transition-duration:.01ms!important;animation-duration:.01ms!important}
-}
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 68px; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem;
+      background: rgba(8,8,10,0.6); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.05rem; color: var(--text); text-decoration: none; letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 1.75rem; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.88rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;
-  z-index:999;
-  height:50px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;
-  background:var(--bg);
-  border-bottom:var(--border-w) solid var(--white);
-  box-shadow: 0 4px 0px var(--doom-red);
-}
-.nav-id{
-  display:flex;align-items:center;gap:8px;
-  font-size:.85rem;font-weight:700;letter-spacing:.04em;
-}
-.nav-id .host{color:var(--white); font-family: 'Bangers', cursive; font-size: 1.3rem; letter-spacing: 2px;}
-.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--doom-red);border:2px solid var(--white);animation:pulse-d 0.8s infinite alternate}
-@keyframes pulse-d{from{transform:scale(0.8); box-shadow: 0 0 0px var(--doom-red);}to{transform:scale(1.2); box-shadow: 0 0 10px var(--doom-red);}}
+    /* Layout */
+    .scene {
+      position: relative; z-index: 2;
+      min-height: 100vh; display: flex; align-items: center;
+    }
+    .scene--hero { padding-top: 68px; }
+    .scene--alt { background: rgba(0,0,0,0.18); }
+    .container { max-width: 940px; margin: 0 auto; padding: 0 2.5rem; width: 100%; }
 
-.nav-links{display:flex;gap:24px; font-weight:700;}
-.nav-links a{
-  font-size:.8rem;color:var(--white);text-decoration:none;
-  text-transform:uppercase; transition:all 150ms;
-}
-.nav-links a:hover{color:var(--doom-cyn); transform:translateY(-2px); text-shadow: 2px 2px 0px var(--black);}
+    /* Reveal animation */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.85s var(--ease-film), transform 0.85s var(--ease-film);
+      transition-delay: calc(var(--d, 0) * 110ms);
+    }
+    .reveal.live { opacity: 1; transform: translateY(0); }
 
-/* ── MAIN WRAP ── */
-.wrap{max-width:950px;margin:0 auto;padding:0 28px}
-main { overflow: hidden; }
+    /* Hero */
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 2rem;
+      border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 1rem;
+    }
+    .hero-label i {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+      display: inline-block; animation: blink 2.4s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding-top:100px;padding-bottom:60px;
-  position: relative;
-  transform-style: preserve-3d;
-}
+    .hero-headline {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(3rem, 7.5vw, 4.8rem);
+      line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.75rem;
+    }
+    .hero-headline .grad {
+      background: linear-gradient(100deg, var(--cyan) 0%, var(--magenta) 65%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
 
-/* Continuous floating hero container */
-.hero-float-wrapper {
-  animation: float-3d 6s ease-in-out infinite;
-  transform-style: preserve-3d;
-}
+    .hero-body {
+      font-size: 1.15rem; color: var(--muted); max-width: 620px;
+      margin-bottom: 2.5rem; font-weight: 300; line-height: 1.8;
+    }
+    .hero-body strong { color: var(--text); font-weight: 500; }
 
-@keyframes float-3d {
-  0%, 100% { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
-  50% { transform: translateY(-15px) rotateX(-2deg) rotateY(2deg); }
-}
+    .btn-row { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 500;
+      font-size: 0.9rem; text-decoration: none; transition: all 0.25s var(--ease-film);
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      font-family: 'DM Sans', sans-serif; letter-spacing: 0.01em;
+    }
+    .btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); border-color: rgba(255,255,255,0.16); }
+    .btn--primary { border-color: rgba(0,232,255,0.28); background: rgba(0,232,255,0.07); }
+    .btn--primary:hover { background: rgba(0,232,255,0.13); }
 
-.hero-name{
-  font-family:'Bangers', cursive;
-  font-size:clamp(4.5rem,13vw,10rem);
-  color:var(--white);
-  letter-spacing:.02em;line-height:.85;
-  text-shadow: 6px 6px 0px var(--doom-red), 12px 12px 0px var(--doom-cyn);
-  margin-bottom:20px;
-  transform: rotate(-3deg);
-  position: relative;
-  z-index: 10;
-  transition: transform 0.2s;
-}
-.hero-name:hover {
-  transform: rotate(0deg) scale(1.05);
-  text-shadow: 8px 8px 0px var(--doom-ylw), 16px 16px 0px var(--doom-grn);
-}
+    .hero-divider {
+      margin-top: 4.5rem; padding-top: 3rem; border-top: 1px solid var(--border);
+      display: flex; gap: 3.5rem; flex-wrap: wrap;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.9rem;
+      color: var(--text);
+    }
+    .stat-label {
+      font-size: 0.78rem; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-top: 0.15rem;
+    }
 
-.hero-tag{
-  font-size:1rem; font-weight: 700;
-  background: var(--card-bg);
-  color: var(--white);
-  display: inline-block;
-  padding: 6px 14px;
-  border: var(--border-w) solid var(--white);
-  box-shadow: 4px 4px 0px var(--doom-ylw);
-  margin-bottom:12px;
-  transform: rotate(1deg);
-  align-self: flex-start;
-}
+    /* Section typography */
+    .section-eyebrow {
+      font-size: 0.73rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 1rem;
+    }
+    .section-heading {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 0.9rem;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 1.05rem; max-width: 560px;
+      font-weight: 300; line-height: 1.75; margin-bottom: 3.5rem;
+    }
 
-.hero-sub{
-  font-size:.95rem; font-weight: 700;
-  margin-bottom:44px;
-  color: var(--black);
-  background: var(--doom-cyn);
-  display: inline-block;
-  padding: 4px 10px;
-  border: 2px solid var(--white);
-  align-self: flex-start;
-}
+    /* Project cards */
+    .project-list { display: flex; flex-direction: column; gap: 1.25rem; }
 
-.hero-btns{
-  display:flex;gap:20px;flex-wrap:wrap;
-}
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem 2.25rem;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: start; gap: 1.5rem;
+      transition: border-color 0.35s var(--ease-film), transform 0.35s var(--ease-film), background 0.35s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 0% 50%, var(--accent, rgba(0,232,255,0.05)) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .project-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-4px); }
+    .project-card:hover::after { opacity: 1; }
 
-/* Brutalist Buttons with Aggressive Wiggle */
-.btn{
-  font-family:'JetBrains Mono',monospace;
-  font-size:.9rem; font-weight: 700;
-  padding:12px 24px;
-  cursor:pointer;text-decoration:none;
-  color: var(--white);
-  background: var(--card-bg);
-  border: var(--border-w) solid var(--white);
-  display:inline-flex;align-items:center;gap:10px;
-  transition:all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.btn-cyn { box-shadow: var(--shadow-cyn); }
-.btn-red { box-shadow: var(--shadow-red); }
+    .card-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.2rem; letter-spacing: -0.01em; margin-bottom: 0.55rem;
+    }
+    .card-desc {
+      color: var(--muted); font-size: 0.97rem; line-height: 1.75; font-weight: 300;
+    }
+    .card-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 1.1rem; }
+    .tag {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .card-link {
+      flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.83rem; font-weight: 500; color: var(--cyan);
+      text-decoration: none; white-space: nowrap; align-self: center;
+      transition: gap 0.2s var(--ease-film);
+    }
+    .card-link:hover { gap: 0.65rem; }
+    .card-link svg { width: 13px; height: 13px; }
 
-.btn:hover{
-  animation: shake 0.4s infinite;
-  box-shadow: 10px 10px 0px var(--white);
-  background: var(--doom-ylw);
-  color: var(--black);
-}
+    /* About */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .about-text p {
+      color: var(--muted); font-size: 1rem; font-weight: 300;
+      line-height: 1.85; margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
 
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  25% { transform: translate(-2px, -2px) rotate(-3deg); }
-  50% { transform: translate(1px, -1px) rotate(3deg); }
-  75% { transform: translate(-1px, 2px) rotate(-1deg); }
-  100% { transform: translate(1px, 1px) rotate(0deg); }
-}
+    .about-panel {
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.75rem; background: var(--surface);
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .skill-row { display: flex; flex-direction: column; gap: 0.45rem; }
+    .skill-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .bar-track { height: 3px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      width: 0%; transition: width 1.1s var(--ease-film);
+    }
 
-/* ── INFINITE MARQUEE TICKER ── */
-.marquee-container {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  background: var(--doom-ylw);
-  border-top: var(--border-w) solid var(--white);
-  border-bottom: var(--border-w) solid var(--white);
-  padding: 10px 0;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  box-shadow: 0px 6px 0px var(--doom-red);
-  transform: rotate(-1.5deg) scale(1.05);
-  margin-bottom: 60px;
-  z-index: 50;
-}
-.marquee-text {
-  display: inline-block;
-  font-family: 'Bangers', cursive;
-  font-size: 2rem;
-  color: var(--black);
-  letter-spacing: 3px;
-  animation: scroll-left 15s linear infinite;
-}
-.marquee-text span { margin: 0 40px; }
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } 
-}
+    /* Footer */
+    footer {
+      position: relative; z-index: 2;
+      border-top: 1px solid var(--border);
+      padding: 3rem 0; text-align: center;
+      color: var(--muted); font-size: 0.88rem; font-weight: 300;
+    }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--text); }
 
-/* ── SECTION SHARED ── */
-.section-chrome{
-  padding:90px 0 150px;
-  border-top: var(--border-w) solid var(--white);
-  background: var(--bg);
-  position: relative;
-}
-.section-chrome:nth-child(even) {
-  background: #0a0a0d; 
-}
-.section-op{
-  font-family: 'Bangers', cursive;
-  font-size: 3.5rem;
-  letter-spacing: 2px;
-  color: var(--white);
-  text-shadow: 4px 4px 0px var(--doom-red);
-  margin-bottom: 50px;
-  display: inline-block;
-  position: relative;
-  z-index: 5;
-}
-.section-op::before {
-  content: '';
-  position: absolute;
-  width: 110%; height: 40%;
-  background: var(--doom-ylw);
-  bottom: 5px; left: -5%;
-  z-index: -1;
-  border: 2px solid var(--white);
-  transform: rotate(-2deg);
-}
-
-/* ── THE MASSIVE SMOKE SLIDING DOORS ── */
-.cloud-overlay {
-  position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
-  z-index: 100; /* Covers the section completely until it slides */
-  pointer-events: none;
-  overflow: hidden;
-}
-.cloud-door {
-  position: absolute;
-  top: -10%; bottom: -10%;
-  width: 60vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  opacity: 1; /* Full opacity per request */
-  transition: transform 1.2s cubic-bezier(0.5, 0, 0.1, 1);
-}
-.door-left {
-  left: -5vw;
-  /* Massive white comic cloud facing right */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L65,0 Q105,12 70,25 Q115,40 75,50 Q115,60 70,75 Q105,88 65,100 L0,100 Z' fill='%23ffffff'/%3E%3C/svg%3E");
-  filter: drop-shadow(8px 0px 0px var(--doom-cyn));
-  transform: translateX(0);
-}
-.door-right {
-  right: -5vw;
-  /* Massive white comic cloud facing left */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100,0 L35,0 Q-5,12 30,25 Q-15,40 25,50 Q-15,60 30,75 Q-5,88 35,100 L100,100 Z' fill='%23ffffff'/%3E%3C/svg%3E");
-  filter: drop-shadow(-8px 0px 0px var(--doom-red));
-  transform: translateX(0);
-}
-
-/* When section enters viewport, slide the massive clouds apart */
-.section-chrome.in .door-left { transform: translateX(-120%); }
-.section-chrome.in .door-right { transform: translateX(120%); }
-
-/* ── 3D DEPTH REVEAL ("DIVING INTO PAGE") ── */
-.proj-list-wrapper {
-  perspective: 2500px;
-}
-.proj-list{
-  display:grid; grid-template-columns: 1fr 1fr; gap:60px 40px;
-  transform-style: preserve-3d;
-}
-
-.reveal-3d {
-  opacity: 0;
-  /* Starts incredibly small, blurry, rotated, and pushed deep into the background void */
-  transform: translateZ(-1500px) translateY(300px) scale(0.1) rotateX(30deg);
-  filter: blur(25px);
-  transform-origin: center center;
-  transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.section-chrome.in .reveal-3d {
-  opacity: 1;
-  /* Rockets forward into the user's face */
-  transform: translateZ(0) translateY(0) scale(1) rotateX(0deg);
-  filter: blur(0);
-}
-
-/* ── ABOUT ── */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
-.tblock{
-  background:var(--card-bg);
-  border:var(--border-w) solid var(--white);
-  box-shadow: var(--shadow-cyn);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.tblock:hover { 
-  transform: translateY(-10px) scale(1.02); 
-  box-shadow: 12px 12px 0px var(--doom-ylw);
-}
-.tblock-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px;
-  border-bottom:var(--border-w) solid var(--white);
-  background:var(--bg);
-}
-.tblock-title{font-size:.85rem;font-weight:700;text-transform:uppercase; color: var(--white);}
-.tdots{display:flex;gap:6px}
-.td{width:12px;height:12px;border:2px solid var(--white);border-radius:50%}
-.td-r{background:var(--doom-red)}.td-y{background:var(--doom-ylw)}.td-g{background:var(--doom-grn)}
-.tblock-body{padding:20px}
-.tl{font-size:.85rem;line-height:1.8;font-weight:700}
-.tl-blank{height:12px}
-
-/* ── PROJECTS CARDS ── */
-.pentry{
-  background:var(--card-bg);
-  border:var(--border-w) solid var(--white);
-  box-shadow: var(--shadow-red);
-  display: flex; flex-direction: column;
-  transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  z-index: 2;
-}
-
-/* Massive Hover Effects for Cards */
-.pentry:hover{
-  transform:translateY(-15px) rotate(3deg) scale(1.05) !important;
-  box-shadow: -15px 15px 0px var(--white);
-  z-index: 10;
-}
-
-.pentry:nth-child(2) { box-shadow: var(--shadow-cyn); }
-.pentry:nth-child(3) { box-shadow: var(--shadow-ylw); }
-.pentry:nth-child(4) { box-shadow: var(--shadow-red); }
-
-.pentry-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 18px;border-bottom:var(--border-w) solid var(--white);
-  background:var(--bg);
-}
-
-.ppath{font-size:.85rem;font-weight:700; color:var(--doom-cyn);}
-.pentry:nth-child(2) .ppath { color: var(--doom-ylw); }
-.pentry:nth-child(3) .ppath { color: var(--doom-red); }
-.pentry:nth-child(4) .ppath { color: var(--doom-grn); }
-
-.pentry-body{
-  padding:24px;
-  display:flex; flex-direction:column; flex: 1;
-}
-.ptitle{
-  font-family:'Bangers',cursive;
-  font-size:2.5rem;color:var(--white);
-  line-height:1;margin-bottom:12px;
-  text-shadow: 3px 3px 0px var(--black);
-}
-.pdesc{
-  font-size:.85rem;line-height:1.6;font-weight:400;
-  margin-bottom:20px; flex: 1; color: #dddddd;
-}
-
-.plink{
-  display:inline-flex;align-items:center;justify-content: center; gap:8px;
-  font-family:'JetBrains Mono',monospace; font-weight: 700;
-  font-size:.8rem;color:var(--black);
-  text-decoration:none;border:2px solid var(--white);
-  padding:10px 16px; background: var(--doom-grn);
-  box-shadow: 4px 4px 0px var(--white);
-  transition:all 200ms;
-}
-.plink:hover{ transform:translate(-2px, -2px); box-shadow: 8px 8px 0px var(--doom-ylw); background: var(--doom-red); color: var(--white);}
-
-/* ── FOOTER ── */
-footer{
-  border-top:var(--border-w) solid var(--white);
-  background: var(--bg);
-  padding:40px 28px;
-  display:flex;align-items:center;justify-content:space-between;
-  font-weight: 700;
-}
-.foot-l{font-size:.8rem;}
-.foot-r{font-size:.8rem; color: var(--doom-cyn);}
-
-@media(max-width:850px){
-  .proj-list{grid-template-columns:1fr}
-}
-@media(max-width:680px){
-  .about-grid{grid-template-columns:1fr}
-  .hero-name{font-size:clamp(3.5rem,15vw,6rem)}
-  nav{padding:0 18px}
-  .wrap{padding:0 18px}
-  footer{flex-direction:column;gap:10px;text-align:center}
-  .cloud-door { width: 80vw; }
-}
-</style>
+    @media (max-width: 720px) {
+      .project-card { grid-template-columns: 1fr; }
+      .card-link { justify-content: flex-start; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-divider { gap: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1.25rem; }
+      nav { padding: 0 1.25rem; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav role="navigation">
-  <div class="nav-id">
-    <div class="nav-dot"></div>
-    <span class="host">CINNAMONPUMA</span>
+  <div class="scene-bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
   </div>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#projects">Mods</a>
-    <a href="https://www.youtube.com/@CinnamonPuma" target="_blank" rel="noopener">YouTube</a>
-  </div>
-</nav>
+  <div class="grain"></div>
 
-<main>
-<!-- HERO -->
-<section class="hero wrap" id="hero">
-  <div class="hero-float-wrapper">
-    <h1 class="hero-name">CINNAMONPUMA</h1>
-    <p class="hero-tag">MOD DEVELOPER &amp; CODER // FABRIC</p>
-    <br>
-    <p class="hero-sub">Random things built with love</p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn btn-cyn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        VIEW MODS
-      </a>
-      <a href="https://www.youtube.com/@CinnamonPuma" target="_blank" rel="noopener" class="btn btn-red">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-        YOUTUBE
-      </a>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+
+  <nav>
+    <a href="#" class="nav-brand">CinnamonPuma</a>
+    <div class="nav-links">
+      <a href="https://github.com/cinnamonpuma" target="_blank">GitHub</a>
+      <a href="https://www.youtube.com/@CinnamonPuma" target="_blank">YouTube</a>
+      <a href="https://modrinth.com/user/CinnamonPuma" target="_blank">Modrinth</a>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- ABOUT -->
-<div class="section-chrome reveal-section">
-<section class="wrap" id="about">
-  <h2 class="section-op reveal-3d">ABOUT_ME</h2>
-
-  <div class="about-grid reveal-3d">
-    <div class="tblock">
-      <div class="tblock-head">
-        <span class="tblock-title">profile.txt</span>
-        <div class="tdots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
-      </div>
-      <div class="tblock-body">
-        <div class="tl">Minecraft mod developer.</div>
-        <div class="tl">I build things that live inside</div>
-        <div class="tl">other games : overlays, systems,</div>
-        <div class="tl">idle empires, and music bridges.</div>
-        <div class="tl-blank"></div>
-        <div class="tl">Just a guy</div>
-        <div class="tl">using Fabric</div>
-      </div>
-    </div>
-
-    <div class="tblock">
-      <div class="tblock-head">
-        <span class="tblock-title">stack_info.json</span>
-        <div class="tdots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
-      </div>
-      <div class="tblock-body">
-        <div class="tl">"handle": "cinnamonpuma",</div>
-        <div class="tl">"type": "mod_developer",</div>
-        <div class="tl">"loader": "Fabric API",</div>
-        <div class="tl">"platform": "Modrinth",</div>
-        <div class="tl">:),</div>
-        <div class="tl-blank"></div>
-        <div class="tl">// never fold. keep building.</div>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- INFINITE MARQUEE TICKER -->
-<div class="marquee-container">
-  <div class="marquee-text">
-    <span>FABRIC</span> <span>//</span> <span>COOKIES</span> <span>//</span> <span>MUSIC</span> <span>//</span> <span>CINNAMON</span> <span>//</span> <span>RENDERING</span> <span>//</span>
-    <!-- Duplicated for seamless scrolling -->
-    <span>FABRIC</span> <span>//</span> <span>COOKIES</span> <span>//</span> <span>MUSIC</span> <span>//</span> <span>CINNAMON</span> <span>//</span> <span>RENDERING</span> <span>//</span>
-  </div>
-</div>
-
-<!-- PROJECTS (HIDDEN BY MASSIVE CLOUD DOORS UNTIL SCROLLED) -->
-<div class="section-chrome reveal-section" id="projects-section">
   
-  <!-- The Two Massive Smoke Clouds -->
-  <div class="cloud-overlay">
-    <div class="cloud-door door-left"></div>
-    <div class="cloud-door door-right"></div>
-  </div>
+  <section class="scene scene--hero">
+    <div class="container">
 
-<section class="wrap" id="projects">
-  <h2 class="section-op reveal-3d" style="transition-delay: 0.1s">DEPLOYED_MODS</h2>
+      <div class="reveal" style="--d:0">
+        <div class="hero-label"><i></i> Minecraft Mod Developer</div>
+      </div>
 
-  <div class="proj-list-wrapper">
-    <div class="proj-list">
+      <h1 class="hero-headline reveal" style="--d:1">
+        I'm <span class="grad">CinnamonPuma.</span><br>I make Minecraft mods.
+      </h1>
 
-      <!-- CookieClickerUltimate -->
-      <article class="pentry reveal-3d" style="transition-delay: 0.2s">
-        <div class="pentry-head">
-          <div class="ppath">cookieclickerultimate.jar</div>
-        </div>
-        <div class="pentry-body">
-          <h2 class="ptitle">Cookie Clicker Ultimate</h2>
-          <p class="pdesc">A full idle game overlay living inside your Minecraft inventory. Build a cookie empire with Minecraft-themed structures, research advanced tech, and ascend via Nether Star prestige bonuses.</p>
-          <a href="https://modrinth.com/mod/cookieclickerultimate" class="plink" target="_blank" rel="noopener">
-            GET ON MODRINTH
-          </a>
-        </div>
-      </article>
+      <p class="hero-body reveal" style="--d:2">
+        I've been modding on Fabric for a while now. I mostly make things I actually wanted 
+        to use myself: an idle game that lives in your inventory, a HUD overlay that shows 
+        what's playing, better chunk borders that don't tank your frames. All free, all open.
+      </p>
 
-      <!-- AudioBridge -->
-      <article class="pentry reveal-3d" style="transition-delay: 0.3s">
-        <div class="pentry-head">
-          <div class="ppath">audiobridge.jar</div>
-        </div>
-        <div class="pentry-body">
-          <h2 class="ptitle">AudioBridge</h2>
-          <p class="pdesc">Bridges your music and your Minecraft session. Pulls your currently playing track (Spotify, etc.) and renders a live "Now Playing" overlay directly on your HUD. Zero config required.</p>
-          <a href="https://modrinth.com/mod/audiobridge" class="plink" target="_blank" rel="noopener">
-            GET ON MODRINTH
-          </a>
-        </div>
-      </article>
+      <div class="btn-row reveal" style="--d:3">
+        <a href="https://www.youtube.com/@CinnamonPuma" target="_blank" class="btn btn--primary">Watch on YouTube</a>
+        <a href="#mods" class="btn">View mods</a>
+        <a href="https://modrinth.com/user/CinnamonPuma" target="_blank" class="btn">Modrinth profile</a>
+      </div>
 
-      <!-- BetterChunkBorders -->
-      <article class="pentry reveal-3d" style="transition-delay: 0.4s">
-        <div class="pentry-head">
-          <div class="ppath">betterchunkborders.jar</div>
+      <div class="hero-divider reveal" style="--d:4">
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">Published mods</div>
         </div>
-        <div class="pentry-body">
-          <h2 class="ptitle">Better Chunk Borders</h2>
-          <p class="pdesc">Enhanced chunk border visualization. Perfect for technical players, builders, and redstoners who need to see exactly where chunks begin and end with highly customizable colors and grid modes.</p>
-          <a href="https://modrinth.com/mod/betterchunkborders" class="plink" target="_blank" rel="noopener">
-            GET ON MODRINTH
-          </a>
+        <div>
+          <div class="stat-num">Fabric</div>
+          <div class="stat-label">Platform</div>
         </div>
-      </article>
-
-      <!-- Cinnamon Client -->
-      <article class="pentry reveal-3d" style="transition-delay: 0.5s">
-        <div class="pentry-head">
-          <div class="ppath">cinnamon-client.jar</div>
+        <div>
+          <div class="stat-num">Free</div>
+          <div class="stat-label">Always</div>
         </div>
-        <div class="pentry-body">
-          <h2 class="ptitle">Cinnamon Client</h2>
-          <p class="pdesc">A lightweight, highly optimized custom client modpack for Fabric. Boosts FPS to the moon, enhances rendering, and provides essential QoL features without bloated or confusing menus.</p>
-          <a href="https://modrinth.com/mod/cinnamon-client" class="plink" target="_blank" rel="noopener">
-            GET ON MODRINTH
-          </a>
-        </div>
-      </article>
-
+      </div>
     </div>
-  </div>
-</section>
-</div>
+  </section>
 
-</main>
+  
+  <section id="mods" class="scene" style="padding: 7rem 0; min-height: auto;">
+    <div class="container">
 
-<footer class="wrap">
-  <div class="foot-l">CINNAMONPUMA // <span id="yr"></span></div>
-  <div class="foot-r">why are you reading me</div>
-</footer>
+      <p class="section-eyebrow reveal" style="--d:0">Projects</p>
+      <h2 class="section-heading reveal" style="--d:1">What I've shipped.</h2>
+      <p class="section-sub reveal" style="--d:2">Four mods so far. All free, all on Modrinth.</p>
 
-<script>
-// Dynamic Year
-document.getElementById('yr').textContent = new Date().getFullYear();
+      <div class="project-list">
 
-// Section & 3D Fly-In Observer
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){
-      // Adding class '.in' triggers both the clouds sliding apart 
-      // AND the cards firing forward from the background
-      e.target.classList.add('in'); 
-      obs.unobserve(e.target);
+        <div class="project-card reveal" style="--d:2; --accent: rgba(255,180,40,0.06);">
+          <div class="card-body">
+            <h3 class="card-title">Cookie Clicker Ultimate</h3>
+            <p class="card-desc">
+              I put a full idle game inside the inventory screen. Cookie factories, a research tree, prestige runs. 
+              It started because I was bored waiting on furnaces and farms. 
+              It runs on its own tick budget so it doesn't affect the rest of the game.
+            </p>
+            <div class="card-tags">
+              <span class="tag">Idle</span>
+              <span class="tag">Inventory UI</span>
+              <span class="tag">Fabric</span>
+            </div>
+          </div>
+          <a href="https://modrinth.com/mod/cookieclickerultimate" target="_blank" class="card-link">
+            Modrinth
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <div class="project-card reveal" style="--d:3; --accent: rgba(0,232,255,0.05);">
+          <div class="card-body">
+            <h3 class="card-title">AudioBridge</h3>
+            <p class="card-desc">
+              Shows what you're currently listening to on your HUD. Works with Spotify or whatever's playing system-wide. 
+              No setup, just install it and it works. I got tired of alt-tabbing to check the song name.
+            </p>
+            <div class="card-tags">
+              <span class="tag">HUD</span>
+              <span class="tag">Spotify</span>
+              <span class="tag">Zero config</span>
+            </div>
+          </div>
+          <a href="https://modrinth.com/mod/audiobridge" target="_blank" class="card-link">
+            Modrinth
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <div class="project-card reveal" style="--d:4; --accent: rgba(110,0,255,0.06);">
+          <div class="card-body">
+            <h3 class="card-title">Better Chunk Borders</h3>
+            <p class="card-desc">
+              The default chunk border visualizer looks bad and causes lag spikes. This one has customizable colors, 
+              cleaner grid modes, and has been properly profiled so it stays out of your frame budget. 
+              Mostly useful for technical players doing slime chunk or farm layout work.
+            </p>
+            <div class="card-tags">
+              <span class="tag">Technical</span>
+              <span class="tag">Redstone</span>
+              <span class="tag">Performance</span>
+            </div>
+          </div>
+          <a href="https://modrinth.com/mod/betterchunkborders" target="_blank" class="card-link">
+            Modrinth
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+        <div class="project-card reveal" style="--d:5; --accent: rgba(255,45,107,0.05);">
+          <div class="card-body">
+            <h3 class="card-title">Cinnamon Client</h3>
+            <p class="card-desc">
+              My personal Fabric client pack for survival. Just the mods I actually use: FPS fixes, 
+              rendering patches, and a few QoL things. Nothing that didn't hold up after months of regular play. 
+              It's opinionated because I made it for myself first.
+            </p>
+            <div class="card-tags">
+              <span class="tag">Client pack</span>
+              <span class="tag">FPS</span>
+              <span class="tag">Survival</span>
+              <span class="tag">Fabric</span>
+            </div>
+          </div>
+          <a href="https://modrinth.com/mod/cinnamon-client" target="_blank" class="card-link">
+            Modrinth
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="scene scene--alt" style="padding: 7rem 0; min-height: auto;">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-eyebrow reveal" style="--d:0">Background</p>
+          <h2 class="section-heading reveal" style="--d:1">How I work.</h2>
+          <div class="reveal" style="--d:2">
+            <p>
+              I've been playing since alpha. At some point "playing" turned into 
+              "wait, why does the renderer make this decision" and that was pretty much it for me.
+            </p>
+            <p>
+              Most of my mods come from something I actually wanted. <strong>Cookie Clicker Ultimate</strong> started 
+              because I was going AFK on farms constantly. <strong>Better Chunk Borders</strong> started because 
+              the default one was ugly. That's usually how it goes.
+            </p>
+            <p>
+              I care a lot about performance. If something I ship costs you frames, I'll keep working on it. 
+              It's not really a philosophy, it just bothers me when mods are sloppy about that.
+            </p>
+          </div>
+        </div>
+        <div class="about-panel reveal" style="--d:3">
+          <div class="skill-row">
+            <span class="skill-label">Java / Fabric API</span>
+            <div class="bar-track"><div class="bar-fill" data-width="92"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Rendering / GLSL</span>
+            <div class="bar-track"><div class="bar-fill" data-width="76"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">In-game UI / UX</span>
+            <div class="bar-track"><div class="bar-fill" data-width="84"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Performance profiling</span>
+            <div class="bar-track"><div class="bar-fill" data-width="89"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Systems design</span>
+            <div class="bar-track"><div class="bar-fill" data-width="80"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer>
+    <div class="container">
+      <p>
+        CinnamonPuma /
+        <a href="https://github.com/cinnamonpuma" target="_blank">GitHub</a> &middot;
+        <a href="https://www.youtube.com/@CinnamonPuma" target="_blank">YouTube</a> &middot;
+        <a href="https://modrinth.com/user/CinnamonPuma" target="_blank">Modrinth</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const fill = document.getElementById('progress-fill');
+    function updateProgress() {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      fill.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
     }
-  });
-},{
-  threshold: 0.25, 
-  rootMargin: '0px 0px -50px 0px' 
-});
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
 
-// Observe all sections containing the .reveal-section trigger class
-document.querySelectorAll('.reveal-section').forEach(el=>obs.observe(el));
-</script>
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('live'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -55px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    const barObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.bar-fill').forEach((b, i) => {
+            setTimeout(() => { b.style.width = b.dataset.width + '%'; }, i * 110);
+          });
+          barObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    const panel = document.querySelector('.about-panel');
+    if (panel) barObs.observe(panel);
+  </script>
 </body>
 </html>
