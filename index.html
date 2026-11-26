@@ -3,100 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#141913">
-  <meta name="description" content="CinnamonPuma makes thoughtful Fabric mods for Minecraft. Explore Cookie Clicker Ultimate, AudioBridge, Better Chunk Borders, and Cinnamon Client.">
-  <meta property="og:title" content="CinnamonPuma — Minecraft mods with a little more character">
-  <meta property="og:description" content="Four Fabric projects built to make the little moments in Minecraft better.">
-  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#141916">
+  <meta name="description" content="Minecraft Java mods by CinnamonPuma. Browse Better Chunk Borders, AudioBridge, Cookie Clicker Ultimate, and Cinnamon Client for Fabric.">
+  <meta property="og:title" content="CinnamonPuma — Minecraft mods">
+  <meta property="og:description" content="Four Fabric mods for Minecraft Java Edition. Screenshots and downloads.">
+  <meta property="og:image" content="https://cinnamonpuma.github.io/assets/audiobridge.webp">
+  <title>CinnamonPuma — Minecraft mods</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <title>CinnamonPuma — Minecraft Mod Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
 </head>
-<body id="top">
+<body>
   <a class="skip" href="#main">Skip to content</a>
-  <header>
-    <div class="shell header-inner">
-      <a class="brand" href="#top"><img src="favicon.svg" width="34" height="34" alt="">CinnamonPuma</a>
-      <nav aria-label="Main navigation"><a href="#mods">Mods</a><a href="#about">About</a></nav>
+  <header class="masthead">
+    <div class="wrap bar">
+      <a class="brand" href="./"><img src="favicon.svg" alt="" width="32" height="32">CinnamonPuma</a>
+      <nav aria-label="Main navigation"><a href="#mods">Mods</a><a href="https://github.com/Cinnamonpuma">GitHub</a></nav>
     </div>
   </header>
-  <main id="main" tabindex="-1">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="shell hero-inner">
-        <div class="hero-copy">
-          <h1 id="hero-title">Minecraft mods<br><em>by CinnamonPuma.</em></h1>
-          <p>Build a cookie empire in your inventory, keep your soundtrack in view, or line up your next build. Four mods for Minecraft Java, all built on Fabric.</p>
-          <a class="browse" href="#mods">Explore the mods <span aria-hidden="true">↓</span></a>
+  <main class="wrap" id="main" tabindex="-1">
+    <div class="introduction">
+      <h1>Minecraft mods</h1>
+      <p>For Minecraft Java Edition <span aria-hidden="true">/</span> Fabric</p>
+    </div>
+    <section id="mods" aria-label="Mods">
+      <article class="feature">
+        <img class="landscape" src="assets/audiobridge.webp" fetchpriority="high" alt="A track title and album cover appear above a sunlit Minecraft valley.">
+        <div class="caption">
+          <h2>AudioBridge</h2>
+          <p>See the current track, artist, and album art on your Minecraft HUD while listening on Windows.</p>
+          <a class="download" href="https://modrinth.com/mod/audiobridge">View on Modrinth <span class="arrow" aria-hidden="true"></span></a>
         </div>
-        <div class="art" aria-hidden="true"><svg class="hero-art" viewBox="0 0 570 560" role="presentation" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="3" height="3" fill="#a8c38c" opacity=".25"/></pattern><filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-color="#0a100a" flood-opacity=".55"/></filter></defs>
-            <rect x="17" y="13" width="536" height="530" rx="34" fill="url(#dots)"/>
-            <g filter="url(#shadow)">
-              <path d="M285 25 480 138 285 250 90 138Z" fill="#9ec47e"/><path d="M90 138 285 250 285 473 90 361Z" fill="#526f43"/><path d="M480 138 285 250 285 473 480 361Z" fill="#334d37"/>
-              <path d="m285 25 47 28-195 112-47-27Z" fill="#aed48a"/><path d="m379 79 48 28-195 112-48-28Z" fill="#b9da91"/><path d="m137 165 48 28v45l-48-28Z" fill="#6c8c54"/><path d="m232 219 48 28v45l-48-28Z" fill="#74945b"/><path d="m332 224 47-27v51l-47 27Z" fill="#496843"/>
-              <path d="M90 204 285 316v62L90 266Z" fill="#6b4d39"/><path d="M285 316 480 204v62L285 378Z" fill="#533c30"/><path d="M90 288 285 400v73L90 361Z" fill="#806047"/><path d="M285 400 480 288v73L285 473Z" fill="#644934"/>
-              <path d="m139 323 37 21v36l-37-21Z" fill="#9a7553"/><path d="m203 361 27 16v36l-27-16Z" fill="#a17a56"/><path d="m355 361 42-24v39l-42 24Z" fill="#79553e"/>
-            </g>
-            <g filter="url(#shadow)"><rect x="337" y="77" width="174" height="112" rx="10" fill="#19231b" stroke="#c9ed73" stroke-width="3"/><rect x="337" y="77" width="174" height="25" rx="8" fill="#b6dd70"/><rect x="346" y="85" width="9" height="9" fill="#335029"/><text x="367" y="94" fill="#263523" font-size="11" font-family="monospace" font-weight="bold">NOW PLAYING</text><path d="M361 153v-21m10 28v-35m10 31v-27m10 18v-17m10 31v-38m10 28v-21m10 23v-25m10 31v-41m10 28v-21m10 17v-14m10 25v-31" stroke="#c9ed73" stroke-width="5" stroke-linecap="round"/></g>
-            <g filter="url(#shadow)"><rect x="37" y="322" width="134" height="108" rx="10" fill="#292821" stroke="#e6b573" stroke-width="3"/><rect x="37" y="322" width="134" height="25" rx="8" fill="#e6b573"/><text x="49" y="339" fill="#352c1e" font-size="11" font-family="monospace" font-weight="bold">COOKIE COUNT</text><circle cx="104" cy="386" r="27" fill="#c6864b" stroke="#84532f" stroke-width="5"/><circle cx="94" cy="376" r="4" fill="#6b3f2b"/><circle cx="114" cy="385" r="4" fill="#6b3f2b"/><circle cx="100" cy="398" r="4" fill="#6b3f2b"/></g>
-            <g fill="#e9cc72"><path d="m67 87 7 18 18 7-18 7-7 18-7-18-18-7 18-7Z"/><path d="m490 392 5 13 13 5-13 5-5 13-5-13-13-5 13-5Z"/></g>
-          </svg></div>
-      </div>
-    </section>
-    <section class="catalog shell" id="mods" aria-labelledby="mods-title">
-      <h2 id="mods-title">The mods</h2>
-      <div class="projects">
-          <article class="project">
-            <div class="project-copy">
-              <h3><a href="https://modrinth.com/mod/cookieclickerultimate">Cookie Clicker Ultimate<span class="sr-only"> on Modrinth</span></a></h3>
-              <p>Build a cookie empire inside your inventory, with upgrades, research, and prestige to keep the numbers climbing.</p>
-              <span class="destination" aria-hidden="true">View on Modrinth ↗</span>
-            </div>
-            <div class="preview cookie" aria-hidden="true"><svg viewBox="0 0 410 320" width="94%" xmlns="http://www.w3.org/2000/svg"><rect x="45" y="38" width="320" height="245" rx="13" fill="#342f2a" stroke="#e3ad74" stroke-width="5"/><rect x="45" y="38" width="320" height="36" rx="10" fill="#d7a76e"/><text x="67" y="62" fill="#352517" font-family="monospace" font-size="17" font-weight="bold">COOKIE EMPIRE</text><rect x="66" y="94" width="135" height="163" rx="8" fill="#523b2c"/><circle cx="133" cy="177" r="55" fill="#c58048" stroke="#8a512d" stroke-width="7"/><circle cx="108" cy="152" r="7" fill="#6a412e"/><circle cx="155" cy="164" r="8" fill="#6a412e"/><circle cx="128" cy="196" r="9" fill="#6a412e"/><circle cx="158" cy="207" r="5" fill="#6a412e"/><rect x="216" y="99" width="127" height="36" rx="5" fill="#775339"/><text x="229" y="123" fill="#fce1a7" font-family="monospace" font-size="14">+ 1,024</text><rect x="216" y="148" width="127" height="30" rx="5" fill="#986a44"/><rect x="216" y="190" width="127" height="30" rx="5" fill="#986a44"/><rect x="216" y="232" width="89" height="18" rx="3" fill="#d5a96c"/><path d="m325 206 9 9 22-26" fill="none" stroke="#f3d389" stroke-width="7"/></svg></div>
-          </article>
-          <article class="project">
-            <div class="project-copy">
-              <h3><a href="https://modrinth.com/mod/audiobridge">AudioBridge<span class="sr-only"> on Modrinth</span></a></h3>
-              <p>Keep the music in view with a now playing HUD for Spotify and other supported media on Windows.</p>
-              <span class="destination" aria-hidden="true">View on Modrinth ↗</span>
-            </div>
-            <div class="preview audio" aria-hidden="true"><svg viewBox="0 0 210 260" width="90%" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="76" width="162" height="110" rx="12" fill="#172c2a" stroke="#a9e5ca" stroke-width="3"/><rect x="38" y="92" width="47" height="47" rx="5" fill="#81baaa"/><circle cx="61" cy="115" r="14" fill="#345e55"/><text x="97" y="105" fill="#c9f2e2" font-family="monospace" font-size="10">NOW PLAYING</text><rect x="97" y="115" width="70" height="6" rx="3" fill="#c9f2e2"/><rect x="97" y="128" width="46" height="5" rx="3" fill="#7ead9e"/><path d="M45 162v-12m10 18v-24m10 19v-14m10 22v-30m10 17v-12m10 24v-29m10 17v-13m10 20v-23m10 16v-9m10 19v-24m10 16v-11" stroke="#a9e5ca" stroke-width="4" stroke-linecap="round"/></svg></div>
-          </article>
-          <article class="project">
-            <div class="project-copy">
-              <h3><a href="https://modrinth.com/mod/betterchunkborders">Better Chunk Borders<span class="sr-only"> on Modrinth</span></a></h3>
-              <p>See chunk boundaries your way, with adjustable grid lines, colors, and a quick settings menu.</p>
-              <span class="destination" aria-hidden="true">View on Modrinth ↗</span>
-            </div>
-            <div class="preview border" aria-hidden="true"><svg viewBox="0 0 210 260" width="88%" xmlns="http://www.w3.org/2000/svg"><path d="m22 99 81-45 85 45-81 47Z" fill="#68839c" stroke="#b0d3e1" stroke-width="3"/><path d="m22 99 85 47v88l-85-46Z" fill="#344d63" stroke="#b0d3e1" stroke-width="3"/><path d="m107 146 81-47v89l-81 46Z" fill="#233a53" stroke="#b0d3e1" stroke-width="3"/><path d="m49 85 85 47m-58-62 85 46M50 115v88m29-73v88m55-88v87m27-103v88" stroke="#b8ea84" stroke-width="3" stroke-dasharray="6 5"/><path d="m22 143 85 46 81-45" fill="none" stroke="#b8ea84" stroke-width="3" stroke-dasharray="6 5"/></svg></div>
-          </article>
-          <article class="project">
-            <div class="project-copy">
-              <h3><a href="https://modrinth.com/mod/cinnamon-client">Cinnamon Client<span class="sr-only"> on Modrinth</span></a></h3>
-              <p>A customizable Fabric client with its own interface and HUD elements for a more personal game.</p>
-              <span class="destination" aria-hidden="true">View on Modrinth ↗</span>
-            </div>
-            <div class="preview client" aria-hidden="true"><svg viewBox="0 0 210 260" width="90%" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="55" width="166" height="147" rx="11" fill="#2a2935" stroke="#e1a9c8" stroke-width="3"/><rect x="22" y="55" width="166" height="23" rx="8" fill="#c790ae"/><rect x="37" y="94" width="53" height="56" rx="4" fill="#8a5f79"/><rect x="46" y="104" width="35" height="36" rx="3" fill="#d3a2bc"/><rect x="103" y="94" width="68" height="10" rx="3" fill="#e6c0d5"/><rect x="103" y="113" width="48" height="8" rx="3" fill="#a67894"/><rect x="37" y="165" width="134" height="20" rx="4" fill="#73546b"/><rect x="42" y="170" width="72" height="10" rx="2" fill="#dfaecd"/></svg></div>
-          </article>
-      </div>
-    </section>
-    <section class="about" id="about" aria-labelledby="about-title">
-      <div class="shell about-inner">
-        <h2 id="about-title">Behind the mods</h2>
-        <div>
-          <p>I’ve played Minecraft since alpha. These projects started with little things I wanted while playing: a more useful overlay, a clearer building tool, or something fun to do while the furnaces run.</p>
-          <div class="links"><a href="https://github.com/cinnamonpuma">Explore my GitHub ↗</a><a href="https://www.youtube.com/@CinnamonPuma">Watch on YouTube ↗</a></div>
-        </div>
+      </article>
+      <div class="entries">
+        <article>
+          <img src="assets/betterchunkborders.webp" alt="Cyan chunk boundaries against the Minecraft sky." loading="lazy">
+          <div><h2><a href="https://modrinth.com/mod/betterchunkborders">Better Chunk Borders</a></h2><p>Customize your chunk grid and toggle it with a keybind. Adjust line thickness and color in game.</p></div>
+          <span class="row-link" aria-hidden="true">Modrinth <i class="arrow"></i></span>
+        </article>
+        <article>
+          <img src="assets/cookieclickerultimate.webp" alt="The Cookie Clicker Ultimate game interface." loading="lazy">
+          <div><h2><a href="https://modrinth.com/mod/cookieclickerultimate">Cookie Clicker Ultimate</a></h2><p>An inventory idle game with buildings to buy, research to unlock, and Nether Star prestige bonuses.</p></div>
+          <span class="row-link" aria-hidden="true">Modrinth <i class="arrow"></i></span>
+        </article>
+        <article>
+          <img src="assets/cinnamon-client.webp" alt="Cinnamon Client’s in-game interface." loading="lazy">
+          <div><h2><a href="https://modrinth.com/mod/cinnamon-client">Cinnamon Client</a></h2><p>Arrange HUD elements, change interface colors, and manage keybinds from an in-game menu.</p></div>
+          <span class="row-link" aria-hidden="true">Modrinth <i class="arrow"></i></span>
+        </article>
       </div>
     </section>
   </main>
-  <footer class="shell">
-    <p>© <span id="year">2026</span> CinnamonPuma</p>
-    <div class="links"><a href="https://modrinth.com/user/CinnamonPuma">Modrinth profile ↗</a><a href="#top">Back to top ↑</a></div>
-  </footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <footer class="wrap"><span>CinnamonPuma</span><nav aria-label="Profile links"><a href="https://modrinth.com/user/CinnamonPuma">Modrinth</a><a href="https://www.youtube.com/@CinnamonPuma">YouTube</a><a href="https://github.com/Cinnamonpuma">GitHub</a></nav></footer>
 </body>
 </html>
